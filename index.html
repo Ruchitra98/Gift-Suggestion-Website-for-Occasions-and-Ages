@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GiftGenie - Find the Perfect Gift</title>
+  <style>
+    body {
+      font-family: STsong;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+    h1 {
+      color: #ff6f61;
+      font-size: 24px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+      text-align: left;
+    }
+    select, input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #ff6f61;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #ff4a3d;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #333;
+      text-align: left;
+    }
+
+    /* Responsive Design */
+    @media (min-width: 600px) {
+      .container {
+        padding: 30px;
+      }
+      h1 {
+        font-size: 28px;
+      }
+      label {
+        font-size: 18px;
+      }
+      select, input {
+        font-size: 18px;
+      }
+      button {
+        font-size: 18px;
+      }
+      .result {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>GiftGenie</h1>
+    <p>Find the perfect gift for any occasion!</p>
+    <label for="occasion">Select Occasion:</label>
+    <select id="occasion">
+      <option value="birthday">Birthday</option>
+      <option value="anniversary">Anniversary</option>
+      <option value="festival">Festival</option>
+      <option value="wedding">Wedding</option>
+      <option value="babyShower">Baby Shower</option>
+      <option value="graduation">Graduation</option>
+      <option value="valentinesDay">Valentine's Day</option>
+      <option value="mothersDay">Mother's Day</option>
+      <option value="fathersDay">Father's Day</option>
+      <option value="housewarming">Housewarming</option>
+      <option value="retirement">Retirement</option>
+    </select>
+
+    <label for="age">Age (for birthdays):</label>
+    <input type="number" id="age" placeholder="Enter age">
+
+    <label for="relationship">Relationship:</label>
+    <select id="relationship">
+      <option value="friend">Friend</option>
+      <option value="partner">Partner</option>
+      <option value="parent">Parent</option>
+      <option value="sibling">Sibling</option>
+      <option value="colleague">Colleague</option>
+      <option value="child">Child</option>
+    </select>
+
+    <button onclick="suggestGift()">Get Gift Suggestions</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function suggestGift() {
+      const occasion = document.getElementById('occasion').value;
+      const age = parseInt(document.getElementById('age').value);
+      const relationship = document.getElementById('relationship').value;
+
+      let suggestions = [];
+
+      // Gift suggestions based on occasion and relationship
+      if (occasion === 'birthday') {
+        if (age >= 0 && age <= 12) {
+          suggestions = ['Teddy Bear', 'LEGO Set', 'Educational Toys', 'Art Supplies'];
+        } else if (age >= 13 && age <= 19) {
+          suggestions = ['Smartwatch', 'Gaming Accessories', 'Fashion Items', 'Headphones'];
+        } else if (age >= 20 && age <= 40) {
+          suggestions = ['Personalized Mug', 'Books', 'Tech Gadgets', 'Fitness Tracker'];
+        } else if (age > 40) {
+          suggestions = ['Health Tracker', 'Personalized Photo Frame', 'Luxury Perfume', 'Gourmet Gift Basket'];
+        }
+      } else if (occasion === 'anniversary') {
+        suggestions = ['Personalized Jewelry', 'Romantic Dinner Voucher', 'Customized Couple Mug', 'Photo Album'];
+      } else if (occasion === 'festival') {
+        suggestions = ['Festival Hamper', 'Decor Items', 'Sweets Box', 'Traditional Clothing'];
+      } else if (occasion === 'wedding') {
+        suggestions = ['Home Decor', 'Kitchen Appliances', 'Personalized Gifts', 'Fine China Set'];
+      } else if (occasion === 'babyShower') {
+        suggestions = ['Baby Clothes', 'Diaper Cake', 'Baby Toys', 'Nursing Pillow'];
+      } else if (occasion === 'graduation') {
+        suggestions = ['Personalized Graduation Cap', 'Laptop Bag', 'Inspirational Books', 'Smart Pen'];
+      } else if (occasion === 'valentinesDay') {
+        suggestions = ['Chocolates', 'Romantic Getaway Voucher', 'Personalized Love Letter', 'Jewelry'];
+      } else if (occasion === 'mothersDay') {
+        suggestions = ['Spa Kit', 'Personalized Jewelry', 'Flower Bouquet', 'Cookbook'];
+      } else if (occasion === 'fathersDay') {
+        suggestions = ['Grill Set', 'Personalized Wallet', 'Fitness Tracker', 'Gourmet Coffee Set'];
+      } else if (occasion === 'housewarming') {
+        suggestions = ['Home Decor', 'Plants', 'Kitchen Gadgets', 'Candle Set'];
+      } else if (occasion === 'retirement') {
+        suggestions = ['Travel Voucher', 'Personalized Watch', 'Hobby Kit', 'Memory Scrapbook'];
+      }
+
+      // Display suggestions
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = `<strong>Suggested Gifts:</strong><br>${suggestions.join('<br>')}`;
+    }
+  </script>
+</body>
+</html>

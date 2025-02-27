@@ -117,6 +117,14 @@
       <option value="child">Child</option>
     </select>
 
+    <label for="mood">Emotional State:</label>
+    <select id="mood">
+      <option value="neutral">Neutral</option>
+      <option value="unhappy">Unhappy</option>
+      <option value="sad">Sad</option>
+      <option value="angry">Angry</option>
+    </select>
+
     <button onclick="suggestGift()">Get Gift Suggestions</button>
 
     <div class="result" id="result"></div>
@@ -127,6 +135,7 @@
       const occasion = document.getElementById('occasion').value;
       const age = parseInt(document.getElementById('age').value);
       const relationship = document.getElementById('relationship').value;
+      const mood = document.getElementById('mood').value;
 
       let suggestions = [];
 
@@ -161,6 +170,11 @@
         suggestions = ['Home Decor', 'Plants', 'Kitchen Gadgets', 'Candle Set'];
       } else if (occasion === 'retirement') {
         suggestions = ['Travel Voucher', 'Personalized Watch', 'Hobby Kit', 'Memory Scrapbook'];
+      }
+
+      // Adjust suggestions based on mood
+      if (mood === 'unhappy' || mood === 'sad' || mood === 'angry') {
+        suggestions = ['Personalized Apology Card', 'Comfort Food Basket', 'Relaxation Kit', 'Spa Voucher', 'Book on Forgiveness'];
       }
 
       // Display suggestions

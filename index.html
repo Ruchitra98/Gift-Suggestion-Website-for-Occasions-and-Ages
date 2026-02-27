@@ -1,234 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GiftGenie - Smart Gift Finder</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GiftGenie - Smart Gift Finder</title>
 
-  <style>
-    body {
-      font-family: STSong, Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #ffe9e6, #f4f4f4);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .container {
-      background: #ffffff;
-      width: 90%;
-      max-width: 420px;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
+  .container {
+    background: #ffffff;
+    width: 92%;
+    max-width: 450px;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  }
 
-    h1 {
-      color: #ff6f61;
-      margin-bottom: 8px;
-    }
+  h1 {
+    text-align: center;
+    color: #ff6f61;
+  }
 
-    p {
-      color: #555;
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
+  p {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
 
-    label {
-      display: block;
-      text-align: left;
-      font-weight: bold;
-      margin-bottom: 6px;
-    }
+  label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+  }
 
-    select,
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 15px;
-    }
+  select, input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+  }
 
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #ff6f61;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+  button {
+    width: 100%;
+    padding: 12px;
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
 
-    button:hover {
-      background-color: #ff4a3d;
-    }
+  button:hover {
+    background-color: #ff4a3d;
+  }
 
-    .result {
-      margin-top: 20px;
-      text-align: left;
-      font-size: 15px;
-      color: #333;
-    }
+  .result {
+    margin-top: 20px;
+    font-size: 15px;
+    color: #333;
+  }
 
-    #ageContainer {
-      display: none;
-    }
-  </style>
+  #ageContainer {
+    display: none;
+  }
+</style>
 </head>
 
 <body>
-  <div class="container">
-    <h1>🎁 GiftGenie</h1>
-    <p>Find the perfect gift based on occasion & emotions</p>
+<div class="container">
+  <h1>🎁 GiftGenie</h1>
+  <p>Smart gift suggestions based on occasion, emotion & gender</p>
 
-    <label for="occasion">Occasion</label>
-    <select id="occasion">
-      <option value="birthday">Birthday</option>
-      <option value="anniversary">Anniversary</option>
-      <option value="festival">Festival</option>
-      <option value="wedding">Wedding</option>
-      <option value="babyShower">Baby Shower</option>
-      <option value="graduation">Graduation</option>
-      <option value="valentinesDay">Valentine's Day</option>
-      <option value="mothersDay">Mother's Day</option>
-      <option value="fathersDay">Father's Day</option>
-      <option value="housewarming">Housewarming</option>
-      <option value="retirement">Retirement</option>
-    </select>
+  <label>Occasion</label>
+  <select id="occasion">
+    <option value="birthday">Birthday</option>
+    <option value="anniversary">Anniversary</option>
+    <option value="festival">Festival</option>
+    <option value="wedding">Wedding</option>
+    <option value="babyShower">Baby Shower</option>
+    <option value="graduation">Graduation</option>
+    <option value="valentinesDay">Valentine's Day</option>
+    <option value="mothersDay">Mother's Day</option>
+    <option value="fathersDay">Father's Day</option>
+    <option value="housewarming">Housewarming</option>
+    <option value="retirement">Retirement</option>
+  </select>
 
-    <div id="ageContainer">
-      <label for="age">Age</label>
-      <input type="number" id="age" placeholder="Enter age" min="0" />
-    </div>
-
-    <label for="relationship">Relationship</label>
-    <select id="relationship">
-      <option value="friend">Friend</option>
-      <option value="partner">Partner</option>
-      <option value="parent">Parent</option>
-      <option value="sibling">Sibling</option>
-      <option value="colleague">Colleague</option>
-      <option value="child">Child</option>
-    </select>
-
-    <label for="mood">Emotional State</label>
-    <select id="mood">
-      <option value="neutral">Neutral</option>
-      <option value="happy">Happy</option>
-      <option value="excited">Excited</option>
-      <option value="celebratory">Celebratory</option>
-      <option value="romantic">Romantic</option>
-      <option value="sad">Sad</option>
-      <option value="unhappy">Unhappy</option>
-      <option value="angry">Angry</option>
-      <option value="stressed">Stressed</option>
-      <option value="tired">Tired</option>
-      <option value="lonely">Lonely</option>
-    </select>
-
-    <button id="giftBtn">Get Gift Suggestions</button>
-
-    <div class="result" id="result"></div>
+  <div id="ageContainer">
+    <label>Age (Only for Birthday)</label>
+    <input type="number" id="age" min="0" placeholder="Enter age" />
   </div>
 
-  <script>
-    function toggleAgeField() {
-      const occasion = document.getElementById("occasion").value;
-      const ageContainer = document.getElementById("ageContainer");
+  <label>Gender</label>
+  <select id="gender">
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+    <option value="nonbinary">Non-binary</option>
+    <option value="preferNot">Prefer not to say</option>
+  </select>
 
-      if (occasion === "birthday") {
-        ageContainer.style.display = "block";
-      } else {
-        ageContainer.style.display = "none";
-        document.getElementById("age").value = "";
-      }
+  <label>Emotional State</label>
+  <select id="mood">
+    <option value="neutral">Neutral</option>
+    <option value="happy">Happy</option>
+    <option value="excited">Excited</option>
+    <option value="celebratory">Celebratory</option>
+    <option value="romantic">Romantic</option>
+    <option value="sad">Sad</option>
+    <option value="stressed">Stressed</option>
+    <option value="tired">Tired</option>
+    <option value="lonely">Lonely</option>
+  </select>
+
+  <button id="giftBtn">Get Gift Suggestions</button>
+
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+
+function toggleAgeField() {
+  const occasion = document.getElementById("occasion").value;
+  document.getElementById("ageContainer").style.display =
+    occasion === "birthday" ? "block" : "none";
+}
+
+function suggestGift() {
+  const occasion = document.getElementById("occasion").value;
+  const age = parseInt(document.getElementById("age").value);
+  const gender = document.getElementById("gender").value;
+  const mood = document.getElementById("mood").value;
+
+  let suggestions = [];
+
+  // 🎂 Birthday Age Logic
+  if (occasion === "birthday") {
+    if (age <= 12) {
+      suggestions = ["Toys", "Story Books", "Art Kits"];
+    } else if (age <= 19) {
+      suggestions = ["Headphones", "Fashion Accessories", "Gaming Gear"];
+    } else {
+      suggestions = ["Tech Gadgets", "Personalized Gifts", "Books"];
     }
+  }
 
-    function suggestGift() {
-      const occasion = document.getElementById("occasion").value;
-      const age = parseInt(document.getElementById("age").value);
-      const mood = document.getElementById("mood").value;
+  // 👨 Expanded Male Gift Ideas
+  if (gender === "male") {
+    suggestions.push(
+      "Luxury Watch",
+      "Premium Leather Wallet",
+      "Wireless Earbuds",
+      "Sports Jersey",
+      "Gym Accessories",
+      "Beard Grooming Kit",
+      "Sneakers",
+      "Tech Organizer",
+      "Car Accessories",
+      "Whiskey Glass Set"
+    );
+  }
 
-      let suggestions = [];
+  // 👩 Expanded Female Gift Ideas
+  if (gender === "female") {
+    suggestions.push(
+      "Jewelry Set",
+      "Handbag",
+      "Spa Hamper",
+      "Perfume Collection",
+      "Makeup Kit",
+      "Silk Scarf",
+      "Skincare Set",
+      "Fitness Yoga Mat",
+      "Designer Sunglasses",
+      "Personalized Name Necklace"
+    );
+  }
 
-      switch (occasion) {
-        case "birthday":
-          if (age <= 12) suggestions = ["Toys", "Story Books", "Art Kits"];
-          else if (age <= 19) suggestions = ["Headphones", "Gaming Gear", "Fashion Items"];
-          else if (age <= 40) suggestions = ["Tech Gadgets", "Personalized Gifts", "Books"];
-          else suggestions = ["Health Gadgets", "Photo Frames", "Luxury Hampers"];
-          break;
+  // 🌈 Neutral / Inclusive Gifts
+  if (gender === "nonbinary" || gender === "preferNot") {
+    suggestions.push(
+      "Gift Cards",
+      "Experience Voucher",
+      "Customized Mug",
+      "Creative DIY Kit",
+      "Subscription Box"
+    );
+  }
 
-        case "anniversary":
-          suggestions = ["Romantic Dinner", "Photo Album", "Personalized Jewelry"];
-          break;
+  // 💝 Mood Logic
+  if (["sad", "stressed", "tired", "lonely"].includes(mood)) {
+    suggestions.push("Comfort Hamper", "Relaxation Kit", "Handwritten Note");
+  }
 
-        case "festival":
-          suggestions = ["Sweets Box", "Decor Items", "Traditional Wear"];
-          break;
+  if (["happy", "excited", "celebratory"].includes(mood)) {
+    suggestions.push("Surprise Gift Box", "Party Kit");
+  }
 
-        case "wedding":
-          suggestions = ["Home Decor", "Kitchen Appliances", "Customized Gifts"];
-          break;
+  if (mood === "romantic") {
+    suggestions.push("Candlelight Dinner Kit", "Couple Gift");
+  }
 
-        case "babyShower":
-          suggestions = ["Baby Clothes", "Toys", "Diaper Basket"];
-          break;
+  document.getElementById("result").innerHTML =
+    "<strong>Suggested Gifts:</strong><br><br>" +
+    [...new Set(suggestions)].join("<br>");
+}
 
-        case "graduation":
-          suggestions = ["Laptop Bag", "Inspirational Books", "Smart Pen"];
-          break;
+document.addEventListener("DOMContentLoaded", function () {
+  toggleAgeField();
+  document.getElementById("occasion").addEventListener("change", toggleAgeField);
+  document.getElementById("giftBtn").addEventListener("click", suggestGift);
+});
 
-        case "valentinesDay":
-          suggestions = ["Chocolates", "Jewelry", "Love Letter"];
-          break;
-
-        case "mothersDay":
-          suggestions = ["Spa Kit", "Flowers", "Personalized Jewelry"];
-          break;
-
-        case "fathersDay":
-          suggestions = ["Wallet", "Watch", "Gourmet Coffee Set"];
-          break;
-
-        case "housewarming":
-          suggestions = ["Plants", "Candle Set", "Home Decor"];
-          break;
-
-        case "retirement":
-          suggestions = ["Travel Voucher", "Hobby Kit", "Memory Scrapbook"];
-          break;
-      }
-
-      if (["sad", "unhappy", "angry", "stressed", "tired", "lonely"].includes(mood)) {
-        suggestions.push("Comfort Hamper", "Relaxation Kit", "Handwritten Note");
-      }
-
-      if (["happy", "excited", "celebratory"].includes(mood)) {
-        suggestions.push("Surprise Gift Box", "Experience Voucher");
-      }
-
-      if (mood === "romantic") {
-        suggestions.push("Candlelight Dinner Kit", "Couple Gift");
-      }
-
-      document.getElementById("result").innerHTML =
-        "<strong>Suggested Gifts:</strong><br>" + suggestions.join("<br>");
-    }
-
-    // ✅ COMBINED & CLEAN INITIALIZATION
-    document.addEventListener("DOMContentLoaded", function () {
-      toggleAgeField();
-      document.getElementById("occasion").addEventListener("change", toggleAgeField);
-      document.getElementById("giftBtn").addEventListener("click", suggestGift);
-    });
-  </script>
+</script>
 </body>
 </html>

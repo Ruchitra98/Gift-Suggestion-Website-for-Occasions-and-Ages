@@ -3,228 +3,637 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>GiftGenie - Smart Gift Finder</title>
-
+<title>GiftGenie — Smart Gift Finder</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0d10;
+    --surface: #16161c;
+    --surface2: #1e1e27;
+    --border: rgba(255,255,255,0.07);
+    --accent: #f7c35f;
+    --accent2: #e87070;
+    --text: #f0ece4;
+    --muted: #7a7a8c;
+    --radius: 16px;
+    --transition: 0.28s cubic-bezier(0.4,0,0.2,1);
+  }
+
   body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #ffe9e6, #f4f4f4);
-    margin: 0;
-    padding: 0;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
     min-height: 100vh;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
+    padding: 40px 16px 60px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Background orbs */
+  body::before, body::after {
+    content: '';
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::before {
+    width: 420px; height: 420px;
+    background: radial-gradient(circle, rgba(247,195,95,0.12) 0%, transparent 70%);
+    top: -80px; right: -100px;
+  }
+  body::after {
+    width: 360px; height: 360px;
+    background: radial-gradient(circle, rgba(232,112,112,0.1) 0%, transparent 70%);
+    bottom: -60px; left: -80px;
+  }
+
+  .wrapper {
+    width: 100%;
+    max-width: 480px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 36px;
+    animation: fadeDown 0.6s ease both;
+  }
+  .logo-icon {
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
+    width: 64px; height: 64px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    border-radius: 20px;
+    font-size: 28px;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 32px rgba(247,195,95,0.25);
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); box-shadow: 0 8px 32px rgba(247,195,95,0.25); }
+    50% { transform: scale(1.04); box-shadow: 0 12px 40px rgba(247,195,95,0.4); }
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.1rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(120deg, var(--accent) 30%, var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .header p {
+    color: var(--muted);
+    font-size: 0.88rem;
+    font-weight: 300;
+    margin-top: 6px;
+    letter-spacing: 0.3px;
   }
 
-  .container {
-    background: #ffffff;
-    width: 92%;
-    max-width: 450px;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  /* Card */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 32px 28px;
+    animation: fadeUp 0.6s 0.1s ease both;
   }
 
-  h1 {
-    text-align: center;
-    color: #ff6f61;
+  /* Step indicator */
+  .steps {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 28px;
   }
-
-  p {
-    text-align: center;
-    color: #666;
-    font-size: 14px;
-    margin-bottom: 20px;
+  .step-dot {
+    height: 3px;
+    flex: 1;
+    border-radius: 99px;
+    background: var(--surface2);
+    transition: var(--transition);
   }
+  .step-dot.active { background: var(--accent); }
 
-  label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
+  /* Field group */
+  .field {
+    margin-bottom: 22px;
+    animation: fadeUp 0.5s ease both;
   }
+  .field-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .field-label span { font-size: 14px; }
 
-  select, input {
+  /* Custom select */
+  .select-wrap {
+    position: relative;
+  }
+  .select-wrap::after {
+    content: '▾';
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+    font-size: 12px;
+  }
+  select {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-  }
-
-  button {
-    width: 100%;
-    padding: 12px;
-    background-color: #ff6f61;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
+    padding: 14px 44px 14px 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.93rem;
+    appearance: none;
     cursor: pointer;
+    transition: var(--transition);
+    outline: none;
   }
-
-  button:hover {
-    background-color: #ff4a3d;
+  select:hover { border-color: rgba(255,255,255,0.15); }
+  select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(247,195,95,0.12);
   }
+  select option { background: #1e1e27; }
 
-  .result {
-    margin-top: 20px;
-    font-size: 15px;
-    color: #333;
-  }
-
+  /* Age input */
   #ageContainer {
     display: none;
+    overflow: hidden;
+    animation: slideDown 0.3s ease both;
+  }
+  #ageContainer.visible { display: block; }
+
+  input[type="number"] {
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.93rem;
+    outline: none;
+    transition: var(--transition);
+    -moz-appearance: textfield;
+  }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+  input[type="number"]:hover { border-color: rgba(255,255,255,0.15); }
+  input[type="number"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(247,195,95,0.12);
+  }
+  input[type="number"]::placeholder { color: var(--muted); }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 24px 0;
+  }
+
+  /* CTA button */
+  .btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--accent) 0%, #e8a83c 100%);
+    color: #0d0d10;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0);
+    transition: var(--transition);
+  }
+  .btn:hover::after { background: rgba(255,255,255,0.12); }
+  .btn:active { transform: scale(0.98); }
+  .btn-icon { font-size: 18px; transition: transform 0.3s ease; }
+  .btn:hover .btn-icon { transform: rotate(20deg) scale(1.15); }
+
+  /* Results */
+  .result-panel {
+    margin-top: 24px;
+    display: none;
+    animation: fadeUp 0.5s ease both;
+  }
+  .result-panel.visible { display: block; }
+
+  .result-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .result-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--text);
+  }
+  .result-count {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--muted);
+    background: var(--surface2);
+    padding: 3px 10px;
+    border-radius: 99px;
+  }
+
+  .gift-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  /* Product card */
+  .gift-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-decoration: none;
+    color: var(--text);
+    transition: var(--transition);
+    animation: fadeUp 0.4s ease both;
+    position: relative;
+    overflow: hidden;
+  }
+  .gift-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(247,195,95,0.05) 0%, transparent 60%);
+    opacity: 0;
+    transition: var(--transition);
+  }
+  .gift-card:hover {
+    border-color: rgba(247,195,95,0.45);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+  .gift-card:hover::before { opacity: 1; }
+
+  .gc-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .gc-emoji { font-size: 22px; line-height: 1; }
+  .gc-shop-icon {
+    font-size: 11px;
+    color: var(--muted);
+    background: rgba(255,255,255,0.06);
+    border-radius: 6px;
+    padding: 3px 6px;
+    transition: var(--transition);
+  }
+  .gift-card:hover .gc-shop-icon {
+    background: var(--accent);
+    color: #0d0d10;
+  }
+
+  .gc-category {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .gc-sample {
+    font-size: 0.73rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .gc-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 4px;
+  }
+  .gc-price {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .gc-cta {
+    font-size: 0.72rem;
+    color: var(--muted);
+    transition: var(--transition);
+  }
+  .gift-card:hover .gc-cta { color: var(--accent); }
+
+  /* Footer */
+  .footer-note {
+    text-align: center;
+    margin-top: 28px;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.3px;
+  }
+
+  /* Animations */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideDown {
+    from { opacity: 0; max-height: 0; }
+    to   { opacity: 1; max-height: 200px; }
+  }
+
+  /* Loading shimmer */
+  .shimmer {
+    background: linear-gradient(90deg, var(--surface2) 25%, rgba(255,255,255,0.05) 50%, var(--surface2) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.2s infinite;
+  }
+  @keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
   }
 </style>
 </head>
-
 <body>
-<div class="container">
-  <h1>🎁 GiftGenie</h1>
-  <p>Smart gift suggestions based on occasion, emotion & gender</p>
 
-  <label>Occasion</label>
-  <select id="occasion">
-    <option value="birthday">Birthday</option>
-    <option value="anniversary">Anniversary</option>
-    <option value="festival">Festival</option>
-    <option value="wedding">Wedding</option>
-    <option value="babyShower">Baby Shower</option>
-    <option value="graduation">Graduation</option>
-    <option value="valentinesDay">Valentine's Day</option>
-    <option value="mothersDay">Mother's Day</option>
-    <option value="fathersDay">Father's Day</option>
-    <option value="housewarming">Housewarming</option>
-    <option value="retirement">Retirement</option>
-  </select>
+<div class="wrapper">
 
-  <div id="ageContainer">
-    <label>Age (Only for Birthday)</label>
-    <input type="number" id="age" min="0" placeholder="Enter age" />
+  <div class="header">
+    <div class="logo-icon">🎁</div>
+    <h1>GiftGenie</h1>
+    <p>Curated suggestions by occasion, mood & identity</p>
   </div>
 
-  <label>Gender</label>
-  <select id="gender">
-    <option value="male">Male</option>
-    <option value="female">Female</option>
-    <option value="nonbinary">Non-binary</option>
-    <option value="preferNot">Prefer not to say</option>
-  </select>
+  <div class="card">
 
-  <label>Emotional State</label>
-  <select id="mood">
-    <option value="neutral">Neutral</option>
-    <option value="happy">Happy</option>
-    <option value="excited">Excited</option>
-    <option value="celebratory">Celebratory</option>
-    <option value="romantic">Romantic</option>
-    <option value="sad">Sad</option>
-    <option value="stressed">Stressed</option>
-    <option value="tired">Tired</option>
-    <option value="lonely">Lonely</option>
-  </select>
+    <div class="steps" id="stepDots">
+      <div class="step-dot active" id="dot1"></div>
+      <div class="step-dot" id="dot2"></div>
+      <div class="step-dot" id="dot3"></div>
+    </div>
 
-  <button id="giftBtn">Get Gift Suggestions</button>
+    <!-- Occasion -->
+    <div class="field" style="animation-delay:0.05s">
+      <div class="field-label"><span>🎉</span> Occasion</div>
+      <div class="select-wrap">
+        <select id="occasion">
+          <option value="birthday">🎂 Birthday</option>
+          <option value="anniversary">💍 Anniversary</option>
+          <option value="festival">🪔 Festival</option>
+          <option value="wedding">💒 Wedding</option>
+          <option value="babyShower">🍼 Baby Shower</option>
+          <option value="graduation">🎓 Graduation</option>
+          <option value="valentinesDay">❤️ Valentine's Day</option>
+          <option value="mothersDay">🌹 Mother's Day</option>
+          <option value="fathersDay">👔 Father's Day</option>
+          <option value="housewarming">🏠 Housewarming</option>
+          <option value="retirement">🌅 Retirement</option>
+        </select>
+      </div>
+    </div>
 
-  <div class="result" id="result"></div>
+    <!-- Age (birthday only) -->
+    <div id="ageContainer" class="field" style="animation-delay:0.1s">
+      <div class="field-label"><span>🎈</span> Age</div>
+      <input type="number" id="age" min="0" placeholder="Enter their age…" />
+    </div>
+
+    <!-- Gender -->
+    <div class="field" style="animation-delay:0.12s">
+      <div class="field-label"><span>🌈</span> Gender</div>
+      <div class="select-wrap">
+        <select id="gender">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="nonbinary">Non-binary</option>
+          <option value="preferNot">Prefer not to say</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Mood -->
+    <div class="field" style="animation-delay:0.16s">
+      <div class="field-label"><span>✨</span> Their Mood</div>
+      <div class="select-wrap">
+        <select id="mood">
+          <option value="neutral">😐 Neutral</option>
+          <option value="happy">😊 Happy</option>
+          <option value="excited">🤩 Excited</option>
+          <option value="celebratory">🥂 Celebratory</option>
+          <option value="romantic">💕 Romantic</option>
+          <option value="sad">😢 Sad</option>
+          <option value="stressed">😰 Stressed</option>
+          <option value="tired">😴 Tired</option>
+          <option value="lonely">🥺 Lonely</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <button class="btn" id="giftBtn">
+      <span class="btn-icon">🪄</span>
+      Find Perfect Gifts
+    </button>
+
+    <!-- Result panel -->
+    <div class="result-panel" id="result">
+      <div class="result-header">
+        <h3>Curated just for them</h3>
+        <div class="result-count" id="resultCount"></div>
+      </div>
+      <div class="gift-grid" id="giftGrid"></div>
+    </div>
+
+  </div>
+
+  <p class="footer-note">Powered by occasion intelligence ✦ GiftGenie 2025</p>
 </div>
 
 <script>
+  const occasionEl = document.getElementById('occasion');
+  const ageContainer = document.getElementById('ageContainer');
+  const giftBtn = document.getElementById('giftBtn');
+  const resultPanel = document.getElementById('result');
+  const giftGrid = document.getElementById('giftGrid');
+  const resultCount = document.getElementById('resultCount');
 
-function toggleAgeField() {
-  const occasion = document.getElementById("occasion").value;
-  document.getElementById("ageContainer").style.display =
-    occasion === "birthday" ? "block" : "none";
-}
+  // Each gift: emoji, sample product name, price range, Amazon search link
+  const giftData = {
+    'Toys':                    { emoji:'🪀', sample:'Magna-Tiles 32-Piece Set',        price:'$45–$60',  url:'https://www.amazon.com/s?k=magna+tiles+kids+toys' },
+    'Story Books':             { emoji:'📚', sample:'Roald Dahl Complete Collection',   price:'$25–$35',  url:'https://www.amazon.com/s?k=roald+dahl+story+books+for+kids' },
+    'Art Kits':                { emoji:'🎨', sample:'Crayola Ultimate Art Studio Kit',  price:'$30–$50',  url:'https://www.amazon.com/s?k=crayola+art+kit+kids' },
+    'Headphones':              { emoji:'🎧', sample:'Sony WH-1000XM5',                 price:'$280–$350',url:'https://www.amazon.com/s?k=sony+wh1000xm5+headphones' },
+    'Fashion Accessories':     { emoji:'💎', sample:'Fossil Gen 6 Smartwatch',         price:'$150–$220',url:'https://www.amazon.com/s?k=fashion+accessories+teen+gift' },
+    'Gaming Gear':             { emoji:'🎮', sample:'Razer DeathAdder V3 Mouse',       price:'$70–$100', url:'https://www.amazon.com/s?k=razer+gaming+gear+gift' },
+    'Tech Gadgets':            { emoji:'📱', sample:'Anker MagSafe Charging Station',  price:'$45–$80',  url:'https://www.amazon.com/s?k=anker+tech+gadgets+gift' },
+    'Personalized Gifts':      { emoji:'✉️', sample:'Custom Star Map Print',           price:'$30–$60',  url:'https://www.amazon.com/s?k=personalized+custom+star+map+print' },
+    'Books':                   { emoji:'📖', sample:'Atomic Habits – James Clear',     price:'$15–$20',  url:'https://www.amazon.com/s?k=atomic+habits+james+clear' },
+    'Luxury Watch':            { emoji:'⌚', sample:'Seiko Presage Automatic',         price:'$200–$400',url:'https://www.amazon.com/s?k=seiko+presage+automatic+watch+men' },
+    'Premium Leather Wallet':  { emoji:'👛', sample:'Bellroy Note Sleeve Wallet',      price:'$70–$100', url:'https://www.amazon.com/s?k=bellroy+note+sleeve+leather+wallet' },
+    'Wireless Earbuds':        { emoji:'🎵', sample:'Apple AirPods Pro (2nd Gen)',     price:'$180–$250',url:'https://www.amazon.com/s?k=apple+airpods+pro+2nd+generation' },
+    'Sports Jersey':           { emoji:'👕', sample:'Nike Dri-FIT Team Jersey',        price:'$40–$90',  url:'https://www.amazon.com/s?k=nike+sports+jersey+men' },
+    'Gym Accessories':         { emoji:'🏋️', sample:'Gymshark Lifting Belt + Gloves', price:'$40–$70',  url:'https://www.amazon.com/s?k=gym+accessories+gift+set+men' },
+    'Beard Grooming Kit':      { emoji:'✂️', sample:'Beardsmen Pro Grooming Kit',      price:'$35–$60',  url:'https://www.amazon.com/s?k=beard+grooming+kit+men+gift' },
+    'Sneakers':                { emoji:'👟', sample:'Nike Air Max 270',               price:'$100–$150',url:'https://www.amazon.com/s?k=nike+air+max+270+sneakers' },
+    'Tech Organizer':          { emoji:'🗂️', sample:'Bagsmart Tech Pouch',            price:'$25–$45',  url:'https://www.amazon.com/s?k=bagsmart+tech+organizer+pouch' },
+    'Car Accessories':         { emoji:'🚗', sample:'Spigen MagSafe Car Mount',       price:'$30–$55',  url:'https://www.amazon.com/s?k=spigen+magsafe+car+mount+gift' },
+    'Whiskey Glass Set':       { emoji:'🥃', sample:'Norlan Whisky Glass Set of 2',   price:'$50–$80',  url:'https://www.amazon.com/s?k=whiskey+crystal+glass+set+gift' },
+    'Jewelry Set':             { emoji:'💍', sample:'Pandora Moments Charm Bracelet', price:'$60–$120', url:'https://www.amazon.com/s?k=pandora+charm+bracelet+jewelry+set' },
+    'Handbag':                 { emoji:'👜', sample:'Coach Crossbody Leather Bag',    price:'$150–$300',url:'https://www.amazon.com/s?k=coach+crossbody+bag+women+gift' },
+    'Spa Hamper':              { emoji:'🛁', sample:'Lavender & Rose Spa Gift Basket', price:'$40–$70',  url:'https://www.amazon.com/s?k=luxury+spa+gift+basket+women' },
+    'Perfume Collection':      { emoji:'🌸', sample:'Jo Malone London Discovery Set', price:'$60–$120', url:'https://www.amazon.com/s?k=jo+malone+perfume+gift+set' },
+    'Makeup Kit':              { emoji:'💄', sample:'Charlotte Tilbury Pillow Talk Set',price:'$50–$90', url:'https://www.amazon.com/s?k=charlotte+tilbury+makeup+gift+set' },
+    'Silk Scarf':              { emoji:'🧣', sample:'Hermès-style Twill Silk Scarf',  price:'$30–$80',  url:'https://www.amazon.com/s?k=silk+scarf+women+gift+luxury' },
+    'Skincare Set':            { emoji:'🧴', sample:'Tatcha The Ritual Starter Set',  price:'$55–$90',  url:'https://www.amazon.com/s?k=tatcha+skincare+gift+set+women' },
+    'Fitness Yoga Mat':        { emoji:'🧘', sample:'Manduka PRO Yoga Mat',           price:'$80–$120', url:'https://www.amazon.com/s?k=manduka+pro+yoga+mat+gift' },
+    'Designer Sunglasses':     { emoji:'🕶️', sample:'Ray-Ban Classic Wayfarer',       price:'$100–$160',url:'https://www.amazon.com/s?k=ray+ban+wayfarer+sunglasses+gift' },
+    'Personalized Name Necklace':{ emoji:'📿', sample:'Dainty Gold Name Necklace',   price:'$25–$60',  url:'https://www.amazon.com/s?k=personalized+name+necklace+gold+gift' },
+    'Gift Cards':              { emoji:'🎟️', sample:'Amazon Gift Card (any amount)',  price:'$20–$200', url:'https://www.amazon.com/s?k=amazon+gift+card' },
+    'Experience Voucher':      { emoji:'🎫', sample:'Airbnb Experiences Gift Card',   price:'$50–$150', url:'https://www.amazon.com/s?k=experience+gift+card+voucher' },
+    'Customized Mug':          { emoji:'☕', sample:'Custom Photo Ceramic Mug',        price:'$15–$30',  url:'https://www.amazon.com/s?k=custom+photo+mug+personalized' },
+    'Creative DIY Kit':        { emoji:'🔧', sample:'Candle Making Starter Kit',      price:'$25–$45',  url:'https://www.amazon.com/s?k=candle+making+diy+kit+gift' },
+    'Subscription Box':        { emoji:'📦', sample:'Earthlove Eco Subscription Box', price:'$40–$60/mo',url:'https://www.amazon.com/s?k=subscription+gift+box' },
+    'Comfort Hamper':          { emoji:'🤗', sample:'Cozy Night In Gift Basket',      price:'$40–$70',  url:'https://www.amazon.com/s?k=comfort+cozy+gift+basket+hamper' },
+    'Relaxation Kit':          { emoji:'🕯️', sample:'Aromatherapy Candle & Bath Set', price:'$30–$55',  url:'https://www.amazon.com/s?k=relaxation+aromatherapy+candle+bath+gift+set' },
+    'Handwritten Note':        { emoji:'✍️', sample:'Elegant Letterpress Card Set',   price:'$12–$25',  url:'https://www.amazon.com/s?k=luxury+letterpress+stationery+card+set' },
+    'Surprise Gift Box':       { emoji:'🎁', sample:'Packed Party Confetti Gift Box', price:'$35–$65',  url:'https://www.amazon.com/s?k=surprise+party+gift+box+set' },
+    'Party Kit':               { emoji:'🎊', sample:'Deluxe Party Decorations Kit',   price:'$20–$40',  url:'https://www.amazon.com/s?k=party+decorations+kit+gift' },
+    'Candlelight Dinner Kit':  { emoji:'🕯️', sample:'Romantic Dinner Candle Set',     price:'$30–$55',  url:'https://www.amazon.com/s?k=romantic+candlelight+dinner+kit+gift' },
+    'Couple Gift':             { emoji:'💑', sample:'Couples Spa Kit & Wine Set',     price:'$50–$90',  url:'https://www.amazon.com/s?k=couples+gift+set+romantic' },
+  };
 
-function suggestGift() {
-  const occasion = document.getElementById("occasion").value;
-  const age = parseInt(document.getElementById("age").value);
-  const gender = document.getElementById("gender").value;
-  const mood = document.getElementById("mood").value;
+  function toggleAgeField() {
+    const isBirthday = occasionEl.value === 'birthday';
+    ageContainer.classList.toggle('visible', isBirthday);
+    document.getElementById('dot2').classList.toggle('active', isBirthday);
+    document.getElementById('dot3').classList.toggle('active', isBirthday);
+  }
 
-  let suggestions = [];
+  function suggestGift() {
+    const occasion = occasionEl.value;
+    const age = parseInt(document.getElementById('age').value);
+    const gender = document.getElementById('gender').value;
+    const mood = document.getElementById('mood').value;
+    let suggestions = [];
 
-  // 🎂 Birthday Age Logic
-  if (occasion === "birthday") {
-    if (age <= 12) {
-      suggestions = ["Toys", "Story Books", "Art Kits"];
-    } else if (age <= 19) {
-      suggestions = ["Headphones", "Fashion Accessories", "Gaming Gear"];
-    } else {
-      suggestions = ["Tech Gadgets", "Personalized Gifts", "Books"];
+    if (occasion === 'birthday') {
+      if (age <= 12)       suggestions = ['Toys', 'Story Books', 'Art Kits'];
+      else if (age <= 19)  suggestions = ['Headphones', 'Fashion Accessories', 'Gaming Gear'];
+      else                 suggestions = ['Tech Gadgets', 'Personalized Gifts', 'Books'];
     }
+
+    if (gender === 'male') {
+      suggestions.push('Luxury Watch','Premium Leather Wallet','Wireless Earbuds',
+        'Sports Jersey','Gym Accessories','Beard Grooming Kit','Sneakers',
+        'Tech Organizer','Car Accessories','Whiskey Glass Set');
+    }
+    if (gender === 'female') {
+      suggestions.push('Jewelry Set','Handbag','Spa Hamper','Perfume Collection',
+        'Makeup Kit','Silk Scarf','Skincare Set','Fitness Yoga Mat',
+        'Designer Sunglasses','Personalized Name Necklace');
+    }
+    if (gender === 'nonbinary' || gender === 'preferNot') {
+      suggestions.push('Gift Cards','Experience Voucher','Customized Mug',
+        'Creative DIY Kit','Subscription Box');
+    }
+
+    if (['sad','stressed','tired','lonely'].includes(mood)) {
+      suggestions.push('Comfort Hamper','Relaxation Kit','Handwritten Note');
+    }
+    if (['happy','excited','celebratory'].includes(mood)) {
+      suggestions.push('Surprise Gift Box','Party Kit');
+    }
+    if (mood === 'romantic') {
+      suggestions.push('Candlelight Dinner Kit','Couple Gift');
+    }
+
+    const unique = [...new Set(suggestions)];
+
+    giftBtn.style.opacity = '0.7';
+    giftBtn.style.pointerEvents = 'none';
+    setTimeout(() => {
+      giftBtn.style.opacity = '1';
+      giftBtn.style.pointerEvents = 'auto';
+
+      giftGrid.innerHTML = '';
+      unique.forEach((name, i) => {
+        const d = giftData[name] || { emoji:'🎀', sample: name, price:'', url: `https://www.amazon.com/s?k=${encodeURIComponent(name)}` };
+        const card = document.createElement('a');
+        card.className = 'gift-card';
+        card.href = d.url;
+        card.target = '_blank';
+        card.rel = 'noopener noreferrer';
+        card.style.animationDelay = `${i * 0.05}s`;
+        card.innerHTML = `
+          <div class="gc-top">
+            <span class="gc-emoji">${d.emoji}</span>
+            <span class="gc-shop-icon">↗</span>
+          </div>
+          <div class="gc-category">${name}</div>
+          <div class="gc-sample">${d.sample}</div>
+          <div class="gc-footer">
+            <span class="gc-price">${d.price}</span>
+            <span class="gc-cta">Shop →</span>
+          </div>`;
+        giftGrid.appendChild(card);
+      });
+
+      resultCount.textContent = `${unique.length} ideas`;
+      resultPanel.classList.add('visible');
+      resultPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 350);
   }
 
-  // 👨 Expanded Male Gift Ideas
-  if (gender === "male") {
-    suggestions.push(
-      "Luxury Watch",
-      "Premium Leather Wallet",
-      "Wireless Earbuds",
-      "Sports Jersey",
-      "Gym Accessories",
-      "Beard Grooming Kit",
-      "Sneakers",
-      "Tech Organizer",
-      "Car Accessories",
-      "Whiskey Glass Set"
-    );
-  }
-
-  // 👩 Expanded Female Gift Ideas
-  if (gender === "female") {
-    suggestions.push(
-      "Jewelry Set",
-      "Handbag",
-      "Spa Hamper",
-      "Perfume Collection",
-      "Makeup Kit",
-      "Silk Scarf",
-      "Skincare Set",
-      "Fitness Yoga Mat",
-      "Designer Sunglasses",
-      "Personalized Name Necklace"
-    );
-  }
-
-  // 🌈 Neutral / Inclusive Gifts
-  if (gender === "nonbinary" || gender === "preferNot") {
-    suggestions.push(
-      "Gift Cards",
-      "Experience Voucher",
-      "Customized Mug",
-      "Creative DIY Kit",
-      "Subscription Box"
-    );
-  }
-
-  // 💝 Mood Logic
-  if (["sad", "stressed", "tired", "lonely"].includes(mood)) {
-    suggestions.push("Comfort Hamper", "Relaxation Kit", "Handwritten Note");
-  }
-
-  if (["happy", "excited", "celebratory"].includes(mood)) {
-    suggestions.push("Surprise Gift Box", "Party Kit");
-  }
-
-  if (mood === "romantic") {
-    suggestions.push("Candlelight Dinner Kit", "Couple Gift");
-  }
-
-  document.getElementById("result").innerHTML =
-    "<strong>Suggested Gifts:</strong><br><br>" +
-    [...new Set(suggestions)].join("<br>");
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-  toggleAgeField();
-  document.getElementById("occasion").addEventListener("change", toggleAgeField);
-  document.getElementById("giftBtn").addEventListener("click", suggestGift);
-});
-
+  document.addEventListener('DOMContentLoaded', () => {
+    toggleAgeField();
+    occasionEl.addEventListener('change', toggleAgeField);
+    giftBtn.addEventListener('click', suggestGift);
+  });
 </script>
 </body>
 </html>

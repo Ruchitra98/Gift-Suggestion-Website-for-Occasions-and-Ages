@@ -425,13 +425,22 @@
           <option value="anniversary">💍 Anniversary</option>
           <option value="festival">🪔 Festival</option>
           <option value="wedding">💒 Wedding</option>
+          <option value="engagement">💐 Engagement</option>
           <option value="babyShower">🍼 Baby Shower</option>
+          <option value="genderReveal">👶 Baby Gender Reveal</option>
           <option value="graduation">🎓 Graduation</option>
+          <option value="jobPromotion">💼 Job Promotion</option>
+          <option value="newJob">🧳 New Job / Farewell</option>
           <option value="valentinesDay">❤️ Valentine's Day</option>
           <option value="mothersDay">🌹 Mother's Day</option>
           <option value="fathersDay">👔 Father's Day</option>
           <option value="housewarming">🏠 Housewarming</option>
           <option value="retirement">🌅 Retirement</option>
+          <option value="getWellSoon">🌻 Get Well Soon</option>
+          <option value="thankYou">🙏 Thank You</option>
+          <option value="sympathy">🕊️ Sympathy</option>
+          <option value="christmas">🎄 Christmas</option>
+          <option value="newYear">🎇 New Year</option>
         </select>
       </div>
     </div>
@@ -465,6 +474,8 @@
           <option value="excited">🤩 Excited</option>
           <option value="celebratory">🥂 Celebratory</option>
           <option value="romantic">💕 Romantic</option>
+          <option value="proud">🥹 Proud</option>
+          <option value="grateful">🤲 Grateful</option>
           <option value="sad">😢 Sad</option>
           <option value="stressed">😰 Stressed</option>
           <option value="tired">😴 Tired</option>
@@ -491,7 +502,7 @@
 
   </div>
 
-  <p class="footer-note">Powered by occasion intelligence ✦ GiftGenie 2025</p>
+  <p class="footer-note">Powered by occasion intelligence ✦ GiftGenie 2026</p>
 </div>
 
 <script>
@@ -504,6 +515,7 @@
 
   // Each gift: emoji, sample product name, price range, Amazon search link
   const giftData = {
+    // General / age-based
     'Toys':                    { emoji:'🪀', sample:'Magna-Tiles 32-Piece Set',        price:'$45–$60',  url:'https://www.amazon.com/s?k=magna+tiles+kids+toys' },
     'Story Books':             { emoji:'📚', sample:'Roald Dahl Complete Collection',   price:'$25–$35',  url:'https://www.amazon.com/s?k=roald+dahl+story+books+for+kids' },
     'Art Kits':                { emoji:'🎨', sample:'Crayola Ultimate Art Studio Kit',  price:'$30–$50',  url:'https://www.amazon.com/s?k=crayola+art+kit+kids' },
@@ -513,6 +525,8 @@
     'Tech Gadgets':            { emoji:'📱', sample:'Anker MagSafe Charging Station',  price:'$45–$80',  url:'https://www.amazon.com/s?k=anker+tech+gadgets+gift' },
     'Personalized Gifts':      { emoji:'✉️', sample:'Custom Star Map Print',           price:'$30–$60',  url:'https://www.amazon.com/s?k=personalized+custom+star+map+print' },
     'Books':                   { emoji:'📖', sample:'Atomic Habits – James Clear',     price:'$15–$20',  url:'https://www.amazon.com/s?k=atomic+habits+james+clear' },
+
+    // Gender-based (adult)
     'Luxury Watch':            { emoji:'⌚', sample:'Seiko Presage Automatic',         price:'$200–$400',url:'https://www.amazon.com/s?k=seiko+presage+automatic+watch+men' },
     'Premium Leather Wallet':  { emoji:'👛', sample:'Bellroy Note Sleeve Wallet',      price:'$70–$100', url:'https://www.amazon.com/s?k=bellroy+note+sleeve+leather+wallet' },
     'Wireless Earbuds':        { emoji:'🎵', sample:'Apple AirPods Pro (2nd Gen)',     price:'$180–$250',url:'https://www.amazon.com/s?k=apple+airpods+pro+2nd+generation' },
@@ -533,11 +547,15 @@
     'Fitness Yoga Mat':        { emoji:'🧘', sample:'Manduka PRO Yoga Mat',           price:'$80–$120', url:'https://www.amazon.com/s?k=manduka+pro+yoga+mat+gift' },
     'Designer Sunglasses':     { emoji:'🕶️', sample:'Ray-Ban Classic Wayfarer',       price:'$100–$160',url:'https://www.amazon.com/s?k=ray+ban+wayfarer+sunglasses+gift' },
     'Personalized Name Necklace':{ emoji:'📿', sample:'Dainty Gold Name Necklace',   price:'$25–$60',  url:'https://www.amazon.com/s?k=personalized+name+necklace+gold+gift' },
+
+    // Neutral / general
     'Gift Cards':              { emoji:'🎟️', sample:'Amazon Gift Card (any amount)',  price:'$20–$200', url:'https://www.amazon.com/s?k=amazon+gift+card' },
     'Experience Voucher':      { emoji:'🎫', sample:'Airbnb Experiences Gift Card',   price:'$50–$150', url:'https://www.amazon.com/s?k=experience+gift+card+voucher' },
     'Customized Mug':          { emoji:'☕', sample:'Custom Photo Ceramic Mug',        price:'$15–$30',  url:'https://www.amazon.com/s?k=custom+photo+mug+personalized' },
     'Creative DIY Kit':        { emoji:'🔧', sample:'Candle Making Starter Kit',      price:'$25–$45',  url:'https://www.amazon.com/s?k=candle+making+diy+kit+gift' },
     'Subscription Box':        { emoji:'📦', sample:'Earthlove Eco Subscription Box', price:'$40–$60/mo',url:'https://www.amazon.com/s?k=subscription+gift+box' },
+
+    // Mood-based
     'Comfort Hamper':          { emoji:'🤗', sample:'Cozy Night In Gift Basket',      price:'$40–$70',  url:'https://www.amazon.com/s?k=comfort+cozy+gift+basket+hamper' },
     'Relaxation Kit':          { emoji:'🕯️', sample:'Aromatherapy Candle & Bath Set', price:'$30–$55',  url:'https://www.amazon.com/s?k=relaxation+aromatherapy+candle+bath+gift+set' },
     'Handwritten Note':        { emoji:'✍️', sample:'Elegant Letterpress Card Set',   price:'$12–$25',  url:'https://www.amazon.com/s?k=luxury+letterpress+stationery+card+set' },
@@ -545,6 +563,47 @@
     'Party Kit':               { emoji:'🎊', sample:'Deluxe Party Decorations Kit',   price:'$20–$40',  url:'https://www.amazon.com/s?k=party+decorations+kit+gift' },
     'Candlelight Dinner Kit':  { emoji:'🕯️', sample:'Romantic Dinner Candle Set',     price:'$30–$55',  url:'https://www.amazon.com/s?k=romantic+candlelight+dinner+kit+gift' },
     'Couple Gift':             { emoji:'💑', sample:'Couples Spa Kit & Wine Set',     price:'$50–$90',  url:'https://www.amazon.com/s?k=couples+gift+set+romantic' },
+
+    // Job Promotion
+    'Promotion Gift Set':      { emoji:'💼', sample:'Leather Portfolio & Pen Set',    price:'$40–$70',  url:'https://www.amazon.com/s?k=leather+portfolio+pen+set+promotion+gift' },
+    'Desk Accessories':        { emoji:'🖊️', sample:'Executive Desk Organizer Set',  price:'$30–$60',  url:'https://www.amazon.com/s?k=executive+desk+organizer+set+gift' },
+    'Celebration Champagne':   { emoji:'🍾', sample:'Premium Sparkling Wine Gift Set',price:'$30–$60',  url:'https://www.amazon.com/s?k=celebration+sparkling+wine+gift+set' },
+    'Motivational Book':       { emoji:'📈', sample:'The 7 Habits of Highly Effective People', price:'$12–$20', url:'https://www.amazon.com/s?k=career+success+motivational+book+gift' },
+
+    // Baby Gender Reveal
+    'Baby Boy Gift Set':       { emoji:'💙', sample:'Blue Baby Essentials Gift Basket', price:'$35–$60', url:'https://www.amazon.com/s?k=baby+boy+gift+basket+set' },
+    'Baby Girl Gift Set':      { emoji:'💗', sample:'Pink Baby Essentials Gift Basket', price:'$35–$60', url:'https://www.amazon.com/s?k=baby+girl+gift+basket+set' },
+    'Gender Reveal Decor Kit': { emoji:'🎈', sample:'Pink & Blue Balloon Reveal Kit', price:'$25–$45',  url:'https://www.amazon.com/s?k=gender+reveal+balloon+decor+kit' },
+    'Baby Keepsake Box':       { emoji:'🧸', sample:'Personalized Baby Memory Box',   price:'$30–$55',  url:'https://www.amazon.com/s?k=personalized+baby+memory+keepsake+box' },
+
+    // Engagement
+    'Engagement Card & Frame': { emoji:'🖼️', sample:'Custom Engagement Photo Frame', price:'$25–$45',  url:'https://www.amazon.com/s?k=custom+engagement+photo+frame+gift' },
+    'Ring Dish Set':           { emoji:'💍', sample:'Personalized Ceramic Ring Dish', price:'$18–$30',  url:'https://www.amazon.com/s?k=personalized+ring+dish+engagement+gift' },
+    'Toast Glasses Set':       { emoji:'🥂', sample:'Engraved Champagne Flute Set',   price:'$30–$50',  url:'https://www.amazon.com/s?k=engraved+champagne+flute+engagement+gift' },
+
+    // New Job / Farewell
+    'Farewell Keepsake':       { emoji:'🧳', sample:'Travel Journal & Passport Holder', price:'$25–$50', url:'https://www.amazon.com/s?k=travel+journal+passport+holder+farewell+gift' },
+    'Office Goodbye Card Set': { emoji:'👋', sample:'Personalized Farewell Card Set', price:'$15–$30',  url:'https://www.amazon.com/s?k=personalized+farewell+goodbye+card+gift' },
+    'Insulated Travel Mug':    { emoji:'🧊', sample:'Stanley Insulated Travel Tumbler', price:'$25–$45',url:'https://www.amazon.com/s?k=stanley+insulated+travel+tumbler+gift' },
+
+    // Get Well Soon
+    'Get Well Care Package':   { emoji:'🌻', sample:'Cozy Recovery Care Package',     price:'$30–$55',  url:'https://www.amazon.com/s?k=get+well+soon+care+package+gift' },
+    'Herbal Tea Set':          { emoji:'🍵', sample:'Wellness Herbal Tea Gift Set',   price:'$20–$35',  url:'https://www.amazon.com/s?k=herbal+tea+wellness+gift+set' },
+    'Cozy Blanket':            { emoji:'🧣', sample:'Sherpa Fleece Throw Blanket',    price:'$25–$45',  url:'https://www.amazon.com/s?k=sherpa+fleece+throw+blanket+gift' },
+
+    // Thank You
+    'Thank You Gift Basket':   { emoji:'🙏', sample:'Gourmet Thank You Gift Basket',  price:'$35–$60',  url:'https://www.amazon.com/s?k=gourmet+thank+you+gift+basket' },
+    'Succulent Plant Gift':    { emoji:'🌵', sample:'Potted Succulent Gift Set',      price:'$20–$35',  url:'https://www.amazon.com/s?k=potted+succulent+gift+set+thank+you' },
+
+    // Sympathy
+    'Sympathy Flowers':        { emoji:'🕊️', sample:'Peace Lily Sympathy Plant',      price:'$35–$55',  url:'https://www.amazon.com/s?k=peace+lily+sympathy+plant+gift' },
+    'Memorial Keepsake':       { emoji:'🕯️', sample:'Engraved Memorial Keepsake',     price:'$25–$45',  url:'https://www.amazon.com/s?k=engraved+memorial+keepsake+gift' },
+    'Condolence Card Set':     { emoji:'✉️', sample:'Sympathy Card & Note Set',       price:'$10–$20',  url:'https://www.amazon.com/s?k=sympathy+condolence+card+set' },
+
+    // Christmas / New Year
+    'Christmas Ornament Set':  { emoji:'🎄', sample:'Personalized Christmas Ornament', price:'$15–$30', url:'https://www.amazon.com/s?k=personalized+christmas+ornament+gift' },
+    'Holiday Gift Hamper':     { emoji:'🎅', sample:'Festive Holiday Gift Hamper',    price:'$40–$70',  url:'https://www.amazon.com/s?k=festive+holiday+gift+hamper+basket' },
+    'New Year Planner Set':    { emoji:'🎇', sample:'2027 Planner & Journal Set',     price:'$20–$35',  url:'https://www.amazon.com/s?k=2027+planner+journal+set+gift' },
   };
 
   function toggleAgeField() {
@@ -565,6 +624,43 @@
       if (age <= 12)       suggestions = ['Toys', 'Story Books', 'Art Kits'];
       else if (age <= 19)  suggestions = ['Headphones', 'Fashion Accessories', 'Gaming Gear'];
       else                 suggestions = ['Tech Gadgets', 'Personalized Gifts', 'Books'];
+    }
+
+    if (occasion === 'jobPromotion') {
+      suggestions.push('Promotion Gift Set', 'Desk Accessories', 'Celebration Champagne', 'Motivational Book');
+    }
+    if (occasion === 'genderReveal') {
+      suggestions.push('Gender Reveal Decor Kit', 'Baby Keepsake Box', 'Baby Boy Gift Set', 'Baby Girl Gift Set');
+    }
+    if (occasion === 'babyShower') {
+      suggestions.push('Baby Keepsake Box', 'Baby Boy Gift Set', 'Baby Girl Gift Set');
+    }
+    if (occasion === 'engagement') {
+      suggestions.push('Engagement Card & Frame', 'Ring Dish Set', 'Toast Glasses Set');
+    }
+    if (occasion === 'newJob') {
+      suggestions.push('Farewell Keepsake', 'Office Goodbye Card Set', 'Insulated Travel Mug');
+    }
+    if (occasion === 'retirement') {
+      suggestions.push('Farewell Keepsake', 'Office Goodbye Card Set', 'Whiskey Glass Set');
+    }
+    if (occasion === 'getWellSoon') {
+      suggestions.push('Get Well Care Package', 'Herbal Tea Set', 'Cozy Blanket');
+    }
+    if (occasion === 'thankYou') {
+      suggestions.push('Thank You Gift Basket', 'Succulent Plant Gift', 'Handwritten Note');
+    }
+    if (occasion === 'sympathy') {
+      suggestions.push('Sympathy Flowers', 'Memorial Keepsake', 'Condolence Card Set');
+    }
+    if (occasion === 'christmas') {
+      suggestions.push('Christmas Ornament Set', 'Holiday Gift Hamper', 'Gift Cards');
+    }
+    if (occasion === 'newYear') {
+      suggestions.push('New Year Planner Set', 'Celebration Champagne', 'Gift Cards');
+    }
+    if (occasion === 'wedding') {
+      suggestions.push('Toast Glasses Set', 'Couple Gift', 'Experience Voucher');
     }
 
     if (gender === 'male') {
@@ -590,6 +686,12 @@
     }
     if (mood === 'romantic') {
       suggestions.push('Candlelight Dinner Kit','Couple Gift');
+    }
+    if (mood === 'proud') {
+      suggestions.push('Promotion Gift Set','Motivational Book');
+    }
+    if (mood === 'grateful') {
+      suggestions.push('Thank You Gift Basket','Succulent Plant Gift');
     }
 
     const unique = [...new Set(suggestions)];
